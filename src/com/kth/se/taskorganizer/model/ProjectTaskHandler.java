@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,9 +23,13 @@ public class ProjectTaskHandler {
      * @param args the command line arguments
      */
     public int  choice;
-    public String projectName;
+    public String taskName;
+    public String taskStatus;
+    public int taskIndex=0;
     //public String date;
-    HashMap<Date, String > projectMap = new HashMap<Date, String>();
+    HashMap<Date,TaskDTO > projectMap = new HashMap<Date, TaskDTO>();
+    SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
+    TaskDTO taskDTO;
     
 	
 	/***************************
@@ -32,14 +37,17 @@ public class ProjectTaskHandler {
 	 ***************************/
 	public void displayProjectMenu()
 	{
-		System.out.println(" ************************************** ");
-		System.out.println(" ***** WELCOME TO TASK ORGANIZER ****** ");
-		System.out.println(" ************************************** ");
-		System.out.println("1)ENTER  TASK :  ");
-		System.out.println("2)SHOW TASK LIST");
-		System.out.println("3)SORT TASK LIST (DATE WISE) ");
-		System.out.println("4)EXIT ");
-		System.out.println("--------------------------------------------");
+		
+		System.out.printf("%20s","1)ENTER TASK ");
+		System.out.println();
+		System.out.printf("%20s","2)SHOW  TASK ");
+		System.out.println();
+		System.out.printf("%20s","3)EDIT  TASK ");
+		System.out.println();
+		System.out.printf("%14s","4)EXIT ");
+		System.out.println();
+		System.out.printf("--------------------------------------------");
+		System.out.println();
 	}
 	
 	/****************************
@@ -51,16 +59,17 @@ public class ProjectTaskHandler {
 	    do
         {
 		       Scanner scChoice = new Scanner(System.in);
-		       System.out.println("Choose one option:  ");
+		       System.out.println("PLEASE ENTER YOUR CHOICE:  ");
 		       choice = scChoice.nextInt();
 		       System.out.println();
 		       switch(choice) {
                     case 1 :
-                    System.out.println("Add Project"); 
+                    //System.out.println("Add Project"); 
                     addProject();
                     break;
                     case 2 :
-                    showProjectDetails();
+                    sortProjectList();
+                    
                     break;
                     case 3 :
                     sortProjectList();
@@ -75,65 +84,66 @@ public class ProjectTaskHandler {
 	
 	 }//End of chooseprojectMap
 	
-	/***************************************
-	 * ADD PROJECT DETAILS 
-	 * USER INPUT: PROJECT NAME AND DUE DATE  
-	 ***************************************/
+	/**
+	 * 
+	 */
 	public void addProject(){
 	    char a;
 		do
         {
-               SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
+               
                Scanner keyboard= new Scanner( System.in ); 
-               System.out.println("Enter Project:");
-               projectName = keyboard.nextLine();
+               
+               System.out.println("ENTER TASK:");
+               taskName= keyboard.nextLine();
+               
+               System.out.println("ENTER STATUS:");
+               taskStatus= keyboard.nextLine();
+               taskIndex=taskIndex + 1;
+               taskDTO = new TaskDTO(taskName,taskStatus,taskIndex);
+               
                try {
-                         System.out.println("Enter Project DueDate (dd mm yyyy):");
+                         System.out.println("ENTER TASK DUEDATE(dd/mm/yyyy):");
                          String dueDate = keyboard.nextLine();
-                         Date dueDateObj = myFormat.parse(dueDate);
-                         projectMap.put(dueDateObj,projectName);
+                         Date dueDateObj = myFormat.parse(dueDate); 
+                         projectMap.put(dueDateObj,taskDTO);
                    } catch (ParseException e) {
                           e.printStackTrace();
                    }
-                
-                System.out.println("Do You Want Add More Project (Y/N)");
-                a = keyboard.next().charAt(0);
+               System.out.println("DO YOU WANT TO ADD MORE  TASK (Y/N)");
+               a = keyboard.next().charAt(0);
         }while(a =='Y'|| a =='y');
 		
 	}//End of add project
 	
-	/***************************************
-	 * SHOW PROJECT DETAILS 
-	 * OUTPUT: PROJECT NAME AND DUE DATE  
-	 ***************************************/
-	public void showProjectDetails(){
-		System.out.println("############ PROJECT LIST ############## ");
-        Set set = projectMap.entrySet();
-        Iterator iterator = set.iterator();
-        while(iterator.hasNext()) {
-             Map.Entry mentry = (Map.Entry)iterator.next();
-             System.out.print( mentry.getKey()+":");
-             System.out.println(mentry.getValue());
-        }//End of While
-		
-		
-	}//end of method
+	/**
+	 * 
+	 */
 	
-	/*****************************************
-	 * SORT PROJECT LIST ACCORDING TO DUEDATE
-	 * OUTPUT: PROJECT NAME AND DUE DATE  
-	 *****************************************/
 	public void sortProjectList(){
-		System.out.println("############ SORT PROJECT LIST ############## ");
-        Map<Date, String> treeMap = new TreeMap<Date, String>(projectMap);
+		
+		System.out.printf("INDEX ");
+		System.out.printf("%15s","DUE DATE ");
+		System.out.printf("%15s","TASK");
+		System.out.printf("%35s","STATUS");
+	    System.out.println();
+        System.out.println("---"+"      "+"------------"+"        "+"----------------"+"               "+"-----------");
+        
+		
+        Map<Date,TaskDTO> treeMap = new TreeMap<Date,TaskDTO>(projectMap);
         Set s = treeMap.entrySet();
         Iterator it = s.iterator();
         while ( it.hasNext() ) {
               Map.Entry entry = (Map.Entry) it.next();
-              Date key = (Date) entry.getKey();
-              String value = (String) entry.getValue();
-              System.out.println(key + " => " + value);
+              taskDTO = (TaskDTO)entry.getValue();
+              System.out.print(taskDTO.getTaskIndex());
+              String newUpdatedDate = myFormat.format(entry.getKey());
+              System.out.printf("%20s",newUpdatedDate);
+              System.out.printf("%20s",taskDTO.getTask());
+              System.out.printf("%30s",taskDTO.getStatus());
+              System.out.println();
         }//while
 	}//end of method
+	
 	
 }//End of Class

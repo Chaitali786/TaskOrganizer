@@ -1,5 +1,4 @@
 package com.kth.se.taskorganizer.startup;
-import com.kth.se.taskorganizer.controller.TaskController;
 import com.kth.se.taskorganizer.view.TaskView;
 /**
  * 
@@ -9,13 +8,9 @@ import com.kth.se.taskorganizer.view.TaskView;
 public class TaskOrganizer {
 	public static void main(String[] args)
 	{
-		TaskController taskController = new TaskController();
-		taskController.manageProject();
-		//TaskView taskview =new TaskView();
-        //System.out.println("This is Launcher class!!!!! It will make call to TaskView Class");
+		TaskView taskView =new TaskView();
+		taskView.screenView();
         
-        //taskview.displayMenu();
-        //taskview.makeChoice();
 	}
 
 }

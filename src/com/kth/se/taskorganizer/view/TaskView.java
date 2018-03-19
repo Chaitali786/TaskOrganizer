@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 import com.kth.se.taskorganizer.controller.TaskController;
 /**
- * <class Detail>
+ * <class Detail> 
  * @author chaitali
  *
  */
@@ -14,46 +14,19 @@ public class TaskView {
 	/**
 	 * Method info
 	 */
-	public void displayMenu()
+	public void screenView()
 	{
-		System.out.println(" ############################################################### ");
-		System.out.println(" ############## WELCOME TO TASK ORGANIZER ###################### ");
-		System.out.println(" ############################################################### ");
-		System.out.println(" 1)ORGANIZE PROJECT  ");
-		System.out.println(" 2)ORGANIZE TASK ");
-		System.out.println(" 3)EXIT");
-		System.out.println("--------------------------------------------");
-	}//End of displayMenu
-	public void makeChoice()
-	{   
-		char a;
-	do
-    {
-		Scanner scChoice = new Scanner(System.in);
-		System.out.println("CHOOSE ONE OPTION ::: ");
-		choice = scChoice.nextInt();
+		System.out.printf("%50s","#############################################");
 		System.out.println();
-		switch(choice) {
-        case 1 :
-           //System.out.println("ENTER PROJECT DETAILS !"); 
-           taskController.manageProject();
-           break;
-        case 2 :
-        	 System.out.println("We will add new Task!!!!");
-        	 taskController.manageTask();
-             break;
-        case 3 :
-           System.out.println("Good Bye");
-           break;
-        default :
-           System.out.println("Invalid grade");
-         }//End of Switch
-		
-	  System.out.println("Do You Want To Continue(Y/N)");
-      a = scChoice.next().charAt(0);
-     } while(a =='Y'|| a =='y');
-	
-	}//End of makeChoices 
-	
-	
+		System.out.printf("%50s","###########   W E L C O M E     #############");
+		System.out.println();
+		System.out.printf("%50s","###########        TO           #############");
+		System.out.println();
+		System.out.printf("%50s","########### T A S K  ORGANIZER  #############");
+		System.out.println();
+		System.out.printf("%50s","#############################################");
+		System.out.println();
+		System.out.println();
+		taskController.manageProject();
+	}
 }
