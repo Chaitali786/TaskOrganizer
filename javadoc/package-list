@@ -1,0 +1,5 @@
+com.kth.se.taskorganizer.controller
+com.kth.se.taskorganizer.helper
+com.kth.se.taskorganizer.model
+com.kth.se.taskorganizer.startup
+com.kth.se.taskorganizer.view
